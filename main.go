@@ -2,10 +2,16 @@ package main
 
 import (
 	"./externals/github"
-	"time"
+	"fmt"
+	"net/http"
 )
 
-func main() {
+func handler(writer http.ResponseWriter, request *http.Request) {
 	github.Get("Nicovideo", "VideoCollection", 5)
-	time.Sleep(10000 * time.Millisecond)
+	fmt.Fprintf(writer, "Ok")
+}
+
+func main() {
+	http.HandleFunc("/", handler)
+	http.ListenAndServe(":4000", nil)
 }
