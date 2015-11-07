@@ -5,11 +5,17 @@ import (
 	"github.com/google/go-github/github"
 	"golang.org/x/oauth2"
 	"net/url"
+	"time"
 )
 
 // コメントの内容を保持する
 type Comment struct {
-	Body string
+	Id        int       // コメントID
+	Body      string    // コメント本文
+	UserName  string    // コメントをしたユーザー名
+	FilePath  string    // コメントがついたファイル名。issueの場合は空
+	CreatedAt time.Time // コメントが最初に投稿された時間
+	UpdatedAt time.Time // コメントが最後に更新された時間
 }
 
 // owner/repo の number に該当するプルリクエストからコメントを全て拾ってくる
@@ -39,12 +45,25 @@ func GetPullComments(owner, repo string, number int) ([]Comment, error) {
 	}
 
 	for _, pullComment := range pullComments {
-		comment := Comment{Body: *pullComment.Body}
+		comment := Comment{
+			Id:        *pullComment.ID,
+			Body:      *pullComment.Body,
+			UserName:  *pullComment.User.Login,
+			FilePath:  *pullComment.Path,
+			CreatedAt: *pullComment.CreatedAt,
+			UpdatedAt: *pullComment.UpdatedAt,
+		}
 		comments = append(comments, comment)
 	}
 
 	for _, issueComment := range issueComments {
-		comment := Comment{Body: *issueComment.Body}
+		comment := Comment{
+			Id:        *issueComment.ID,
+			Body:      *issueComment.Body,
+			UserName:  *issueComment.User.Login,
+			CreatedAt: *issueComment.CreatedAt,
+			UpdatedAt: *issueComment.UpdatedAt,
+		}
 		comments = append(comments, comment)
 	}
 
