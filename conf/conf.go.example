@@ -1,0 +1,6 @@
+package conf
+
+const (
+	BaseUrl = "http://api.github.com/v3/"
+	Token   = ""
+)
