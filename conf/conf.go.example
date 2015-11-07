@@ -3,4 +3,5 @@ package conf
 const (
 	BaseUrl = "http://api.github.com/v3/"
 	Token   = ""
+	DbUri   = "root@/pullreq?charset=utf8&parseTime=True"
 )
