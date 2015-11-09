@@ -7,7 +7,7 @@ import (
 )
 
 func handler(writer http.ResponseWriter, request *http.Request) {
-	github.Get("Nicovideo", "VideoCollection", 5)
+	github.Get("", "", 1)
 	fmt.Fprintf(writer, "Ok")
 }
 
